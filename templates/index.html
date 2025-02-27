@@ -1,25 +1,51 @@
-{% extends 'base.html' %}
-{% block title%} Blog de Noticias{% endblock %}
-{% block content%}
-<div class="columns">
-    <div class="column is-offset-3 is-6">
-		    <a  href="{{ url_for('add_post') }}" class="button is-success"><i class="fa-solid fa-plus"></i> &nbsp; Agregar noticia</a>
-        <br><br>        
-        {% for post in posts %}
-        <div class="card">
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-4">{{ post.title }}</p>
-                        <p class="subtitle is-5">{{ post.category.name }}</p>
+<!DOCTYPE html>
+<html class="theme-light" style="background-color: gainsboro;">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/ee9903c79f.js" crossorigin="anonymous"></script>
+</head>
+  <body>
+    <header>
+        <br>
+        <h1 class="title has-text-centered is-1">Blog de Noticias</h1>
+        <hr>
+        <div class="buttons is-centered">
+            <a href="{{ url_for('index') }}" class="button is-primary">Inicio</a>
+            <a href="{{ url_for('add_post') }}" class="button is-success">Nuevo Post</a>
+        </div>
+    </header>
+    <div class="container">
+        {% block content %}
+        <div class="columns">
+            <div class="column is-offset-3 is-6">
+                <a href="{{ url_for('add_post') }}" class="button is-success"><i class="fa-solid fa-plus"></i> &nbsp; Agregar noticia</a>
+                <br><br>        
+                {% for post in posts %}
+                <div class="card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{ post.title }}</p>
+                                <p class="subtitle is-5">{{ post.category.name }}</p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            {{ post.content }}
+                        </div>
+                        <div class="buttons mt-3">
+                            <a href="{{ url_for('update_post', id=post.id) }}" class="button is-warning"><i class="fa-solid fa-pen"></i> &nbsp; Editar</a>
+                            <a href="{{ url_for('delete_post', id=post.id) }}" class="button is-danger"><i class="fa-solid fa-trash"></i> &nbsp; Eliminar</a>
+                        </div>
                     </div>
                 </div>
-                <div class="content">
-                    {{ post.content }}
-                    </div>
+                <br>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
+        {% endblock %}
     </div>
-</div>
-{% endblock%}
+  </body>
+</html>
